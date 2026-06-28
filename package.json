@@ -1,0 +1,21 @@
+{
+  "name": "demo-mlops",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CronosHHH/demo-mlops.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CronosHHH/demo-mlops/issues"
+  },
+  "homepage": "https://github.com/CronosHHH/demo-mlops#readme"
+}

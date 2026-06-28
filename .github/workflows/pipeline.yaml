@@ -1,0 +1,26 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main] # solo corre cuando se hace push a la rama main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # SE HAN USADO 2 ESPACIOS EN VEZ DE TAB
+
+    steps:
+      - uses: actions/checkout@v5
+        # version de checkout, @5 es la version mas reciente, mira en github.com/actions/checkout
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
