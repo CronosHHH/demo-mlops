@@ -1,25 +1,30 @@
-# GitHub Actions y YAML
+# GitHub Actions y YAML — notas rápidas
 
-Para hacer pipelines que automaticen algunos procesos de nuestro trabajo, vamos a usar GitHub Actions, sobre todo porque está integrada con nuestro proyecto y tiene mucho soporte de la comunidad.
+Pequeña guía para crear pipelines con GitHub Actions y recordar reglas básicas de YAML.
 
-> Mirarlo en GitHub Workflow.
+> Los workflows de GitHub Actions se guardan en `.github/workflows/` y usan archivos YAML.
 
-Las pipelines se guardan en formato YAML ".github/workflows/", carpeta que habría que crear.
+## ¿Por qué GitHub Actions?
 
-YAML es más simple que HTML y XML.
+- Integrado con el repositorio.
+- Mucho soporte de la comunidad y marketplace de acciones.
+- Útil para CI (tests) y CD (deploys).
+
+---
 
 ## Reglas básicas de YAML
 
-YAML es sensible al espacio en blanco, así que la indentación importa.
+- YAML es sensible al espacio en blanco: la indentación importa y solo acepta espacios (no tabs).
+- Usa 2 espacios por nivel para mantener consistencia.
 
-### Pairs key-value
+### Ejemplo: pares clave-valor
 
 ```yaml
 language: Python
 framework: Django
 ```
 
-### La indentación solo acepta espacios, no tabs
+### Indentación correcta (no usar tabs)
 
 ```yaml
 app:
@@ -27,15 +32,7 @@ app:
     version: 1.0
 ```
 
-Usar tabs produce error o comportamientos inesperados.
-
-```yaml
-app:
-    name: blog
-    version: 1.0
-```
-
-### Nested structure
+### Estructuras anidadas
 
 ```yaml
 services:
@@ -46,78 +43,93 @@ services:
         type: redis
         version: 6
 ```
-### Scalars
+
+### Tipos básicos (scalars)
+
+```yaml
 pi: 3.14
 is_active: true
+```
 
-###Folded Block
+### Bloques plegados y literales
+
+```yaml
+# Folded block (convierte saltos de línea en espacios)
 description: >
- This is a blog.
- It suppoets multiple lines.
+    This is a blog.
+    It supports multiple lines.
 
-### Literal Block
-description:
- This is a blog.
- It suppoets multiple lines.
+# Literal block (preserva saltos de línea)
+description: |
+    This is a blog.
+    It supports multiple lines.
+```
 
-### Anchors
+### Anchors y aliases
+
+```yaml
 default: &default
- retries: 3
- timeout: 30s
+    retries: 3
+    timeout: 30s
 
-### Aliases
 service1:
- <<: *default
- url: http://service1.com
+    <<: *default
+    url: http://service1.com
 
 service2:
- <<: *default
- url: http://service2.com
-
-## KEYWORDS Y SINTAX
-
-### name
-para definir el worflow/ job_title
-
-### on
-para definir triggers (push, Pr, Schedule)
-
-### jobs
-para definir jobs, sus OS y sus steps
-
-### steps
-la secuencia de acciones del job
-
-### run
-invoca la shell command para ejecutar
-
-### uses
-para hacer pre-build actions
-
-### with
-para pasar parametros a acciones
-
-### env
-establer variables de entorno
-
-### needs
-hacer un trabajo dependa de otro
-
+    <<: *default
+    url: http://service2.com
+```
 
 ---
 
-crea repo en gh*
+## Keywords comunes en workflows de GitHub Actions
 
-npm init -y     // me crea el package.json preconfigurado con un node project
+- `name`: nombre del workflow.
+- `on`: define los triggers (`push`, `pull_request`, `schedule`, `workflow_dispatch`, ...).
+- `jobs`: define bloques de ejecución, OS y `steps`.
+- `steps`: secuencia de acciones dentro de un job.
+- `run`: ejecuta un comando en la shell.
+- `uses`: usa una acción preconstruida (desde marketplace o repo).
+- `with`: parámetros para una acción.
+- `env`: variables de entorno.
+- `needs`: declarar dependencias entre jobs.
 
-Node.js permite poder porgramar el backend en javascript
-npm (Node Package Manager) es el gestor de paquetes de Node.js
+---
 
-package.json -> es el documento de identidad de tu proyecto. 
+## Comandos útiles: Node.js / npm
 
-Allí se guarda:
-    El nombre y la versión de tu aplicación.
-    La lista de librerías externas (dependencias) que tu proyecto necesita para funcionar.
-    Scripts personalizados para arrancar o testear tu app.
+Inicializar un proyecto Node.js rápidamente:
 
-Cree index.js y test.js, puse lo basico, y los añadi en scripts de node.js.
+```bash
+npm init -y
+```
+
+Explicación: `npm init -y` crea un `package.json` con valores por defecto sin pedir interacción. Es la base para instalar dependencias y definir scripts.
+
+Breve descripción de `package.json`:
+
+- `name` y `version` del proyecto.
+- `dependencies` y `devDependencies`.
+- `scripts`: comandos como `start`, `test`, `build`.
+
+Ejemplo: añadir scripts básicos
+
+```json
+{
+    "scripts": {
+        "start": "node index.js",
+        "test": "node test.js"
+    }
+}
+```
+
+---
+
+## Notas finales
+
+- Node.js permite programar el backend en JavaScript.
+- `npm` (Node Package Manager) gestiona paquetes y scripts.
+- Creé `index.js` y `test.js` y los añadí como scripts en `package.json`.
+- Ahora al hacer git push, corre la pipeline
+- mirar el la parte de action en el gh marketplace
