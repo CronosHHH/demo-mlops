@@ -8,3 +8,14 @@ __pycache__/
 coverage.xml
 htmlcov/
 .DS_Store
+
+# Keep only Docker and package manifest files from the demo Node projects.
+hello-docker/react-docker/*
+!hello-docker/react-docker/
+!hello-docker/react-docker/Dockerfile
+!hello-docker/react-docker/package.json
+
+hello-docker/vite-project/*
+!hello-docker/vite-project/
+!hello-docker/vite-project/Dockerfile
+!hello-docker/vite-project/package.json
